@@ -10,11 +10,7 @@
 import json
 import pandas as pd
 from helper import remove_tags
-from config.constants import msteams_columns
-
-def removeDuplicates(df):
-    df = df.drop_duplicates(keep='first', inplace=False)
-    return df
+from config.constants import msteams_columns, msteams_unique_columns
 
 def jsonParser(jsonList):
     username = []

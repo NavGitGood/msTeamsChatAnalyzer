@@ -33,28 +33,28 @@
             "mentions": [
                 {
                     "id": 0,
-                    "mentionText": "Megan",
+                    "mentionText": "Megan Bowen",
                     "mentioned": {
                         "application": null,
                         "device": null,
                         "conversation": null,
                         "user": {
                             "id": "5d8d505c-864f-4804-88c7-4583c966cde8",
-                            "displayName": "Megan",
+                            "displayName": "Megan Bowen",
                             "userIdentityType": "aadUser"
                         }
                     }
                 },
                 {
                     "id": 1,
-                    "mentionText": "Alex",
+                    "mentionText": "Alex Wilber",
                     "mentioned": {
                         "application": null,
                         "device": null,
                         "conversation": null,
                         "user": {
                             "id": "be178404-260a-4f80-b7e5-d52c1e6fdc71",
-                            "displayName": "Alex",
+                            "displayName": "Alex Wilber",
                             "userIdentityType": "aadUser"
                         }
                     }

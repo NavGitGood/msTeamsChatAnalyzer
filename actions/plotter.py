@@ -4,7 +4,7 @@ import matplotlib.gridspec
 import pandas as pd
 import numpy as np
 from config.constants import authors_by_letters, authors_by_words
-from .dataframe_filters import messageCountByAuthor, wordCountByAuthor, letterCountByAuthor, sentimentPolarityCountByAuthor, discreetSentimentForIndividual
+from .dataframe_filters import messageCountByAuthor, wordCountByAuthor, letterCountByAuthor, sentimentPolarityCountByAuthor, discreetSentimentForIndividual, getUserMentions, getUsersWithReplies
 from helper import getColorPalette, getExplosionArray, getColorMap, removeDuplicatesFromLegend
 
 def userPlotter(username, augDF):
@@ -12,7 +12,6 @@ def userPlotter(username, augDF):
     ax = fig.add_subplot()
     df = discreetSentimentForIndividual(username, augDF)
     author_value_counts = df['discreet-sentiment-polarity'].value_counts()
-    print(author_value_counts)
     author_value_counts.plot(kind='bar', stacked=True, ax=ax, color=getColorPalette(5))
     plt.xlabel('Sentiment Polarity', fontsize=15, fontweight='black', color = '#333F4B')
     plt.ylabel('Number of Messages', fontsize=15, fontweight='black', color = '#333F4B')
@@ -28,10 +27,17 @@ def userPlotter(username, augDF):
     ax.spines['left'].set_smart_bounds(True)
     ax.spines['bottom'].set_smart_bounds(True)
     extent = ax.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
-    fig.savefig('test_data/ax_figure.png', bbox_inches=extent.expanded(1.5,1.5))
+    fig.savefig('output/ax_figure.png', bbox_inches=extent.expanded(1.5,1.5))
     # plt.show()
 
-def groupPlotter(augDF):
+def groupPlotter(augDF, rawAugDF, rootDF=None, replyDF=None): 
+    # --------------------- to use rootDF and replyDF only as parameters --------------------
+    # rawAugDF = pd.concat([rootDF,replyDF])
+    # uniqueRootDF = removeDuplicates(rootDF[msteams_unique_columns])
+    # uniqueReplyDF = removeDuplicates(replyDF[msteams_unique_columns])
+    # df = pd.concat([uniqueRootDF,uniqueReplyDF])
+    # augDF = getAugmentedDataFrame(df)
+
     gs = matplotlib.gridspec.GridSpec(8, 2,  width_ratios=[1,1]) #, height_ratios=[1,1,1,1,1,1]
     fig = plt.figure(figsize=(15,15))
     ax1 = fig.add_subplot(gs[1:4,:])
@@ -47,7 +53,7 @@ def groupPlotter(augDF):
     startangle=90, autopct='%1.1f%%', pctdistance=0.5, radius=2, 
     textprops={'fontsize': 22})
     extent = ax1.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
-    fig.savefig('test_data/ax1_figure.png', bbox_inches=extent.expanded(1.0,3.0))
+    fig.savefig('output/ax1_figure.png', bbox_inches=extent.expanded(1.0,3.0))
     fig.delaxes(ax1)
 
 
@@ -65,7 +71,7 @@ def groupPlotter(augDF):
     radius=2,
     textprops={'fontsize': 22})
     extent = ax2.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
-    fig.savefig('test_data/ax2_figure.png', bbox_inches=extent.expanded(1.0,3.0))
+    fig.savefig('output/ax2_figure.png', bbox_inches=extent.expanded(1.0,3.0))
     fig.delaxes(ax2)
 
 
@@ -83,7 +89,7 @@ def groupPlotter(augDF):
     radius=2,
     textprops={'fontsize': 22})
     extent = ax3.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
-    fig.savefig('test_data/ax3_figure.png', bbox_inches=extent.expanded(1.0,3.0))
+    fig.savefig('output/ax3_figure.png', bbox_inches=extent.expanded(1.0,3.0))
     fig.delaxes(ax3)
 
 
@@ -106,10 +112,47 @@ def groupPlotter(augDF):
     for i, r in df4.iterrows():
         ax4.plot(r['sentiment-polarity'], r['Message'], 'o', markersize=5, c=color_map[r['Author']], label=r['Author'])
     removeDuplicatesFromLegend(ax4)
+    ax4.set_xlim([-1, 1])
     extent = ax4.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
-    fig.savefig('test_data/ax4_figure.png', bbox_inches=extent.expanded(1.15,3.0))
-    ax2.set_xlim([-1, 1])
-    ax2.set_ylim([-1, 1])
+    fig.savefig('output/ax4_figure.png', bbox_inches=extent.expanded(1.15,3.0))
+    fig.delaxes(ax4)
+
+    ax5 = fig.add_subplot(gs[1:4,:])
+    ax5.axis('equal')
+    ax5.set_title('User Mentions',
+    {'fontsize': 25,
+    'fontweight' : 'black',
+    'verticalalignment': 'baseline'},
+    loc="center", pad=150,
+    )
+    df5 = getUserMentions(rawAugDF)
+    dfLen = len(df5.index)
+    df5.plot.pie(ax=ax5, colors = getColorPalette(dfLen), explode=getExplosionArray(dfLen), shadow=True, 
+    startangle=90, autopct='%1.1f%%', pctdistance=0.5, radius=2, 
+    textprops={'fontsize': 22})
+    extent = ax5.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
+    fig.savefig('output/ax5_figure.png', bbox_inches=extent.expanded(1.15,3.0))
+    fig.delaxes(ax5)
+
+
+    ax6 = fig.add_subplot(gs[1:4,:])
+    ax6.axis('equal')
+    ax6.set_title('Replies To User',
+    {'fontsize': 25,
+    'fontweight' : 'black',
+    'verticalalignment': 'baseline'},
+    loc="center", pad=150,
+    )
+    df6 = getUsersWithReplies(rootDF, replyDF)
+    dfLen = len(df6.index)
+    df6.plot.pie(ax=ax6, colors = getColorPalette(dfLen), explode=getExplosionArray(dfLen), shadow=True, 
+    startangle=90, autopct='%1.1f%%', pctdistance=0.5, radius=2, 
+    textprops={'fontsize': 22})
+    extent = ax6.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
+    fig.savefig('output/ax6_figure.png', bbox_inches=extent.expanded(1.15,3.0))
+    fig.delaxes(ax6)
+
+
     plt.tight_layout()
     # plt.show()
 

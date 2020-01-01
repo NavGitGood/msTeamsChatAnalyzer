@@ -1,12 +1,12 @@
-from .dataframe_metrics import getAugmentedDataFrame, getWordCountByAuthor, getLetterCountByAuthor, augmentDataFrameWithSentimentPolarity, augmentDataFrameWithDiscreetSentimentPolarity
+from .dataframe_metrics import getAugmentedDataFrame, getWordCountByAuthor, getLetterCountByAuthor, augmentDataFrameWithSentimentPolarity, augmentDataFrameWithDiscreetSentimentPolarity, getRepliesPerUser
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from helper import getColorMap
 
-def messageCountByAuthor(augDF, num=None):
-    df = getAugmentedDataFrame(augDF)
-    author_value_counts = df['Author'].value_counts()
+def messageCountByAuthor(df, num=None):
+    augDF = getAugmentedDataFrame(df)
+    author_value_counts = augDF['Author'].value_counts()
     return author_value_counts.head(num)
 
 def wordCountByAuthor(augDF, num=None):
@@ -27,3 +27,15 @@ def sentimentPolarityCountByAuthor(augDF):
 def discreetSentimentForIndividual(author_name, augDF):
     df = augmentDataFrameWithDiscreetSentimentPolarity(augDF)
     return df.loc[df['Author'] == author_name]
+
+def getUserMentions(mergedDF):
+    mergedDF.reset_index(drop=True, inplace=True)
+    rowsToRemove = mergedDF[mergedDF['Mentioned'].apply(lambda x: x.startswith('null'))].index
+    mergedDF = mergedDF.drop(rowsToRemove)
+    userMentionsDF = mergedDF['Mentioned'].value_counts()
+    return userMentionsDF
+
+def getUsersWithReplies(rootDF, replyDF):
+    joinedDF = getRepliesPerUser(rootDF, replyDF)
+    joinedDF = joinedDF['Author_x'].value_counts()
+    return joinedDF
