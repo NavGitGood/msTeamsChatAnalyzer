@@ -1,7 +1,8 @@
 from textblob import TextBlob
 import pandas as pd
-from config.constants import continuous_columns, msteams_columns, discrete_columns
+from config.constants import continuous_columns, msteams_columns, discrete_columns, msteams_unique_columns
 import numpy as np
+from helper import removeDuplicates
 
 # ---------------------- only for demo -----------------
 
@@ -32,6 +33,15 @@ def getLetterCountByAuthor(augDF):
     # df = getAugmentedDataFrame()
     augDF = augDF[['Author', 'Letter_Count']].groupby('Author').sum()
     return augDF.reset_index()
+
+def getRepliesPerUser(rootDF, replyDF):
+    rootDF = removeDuplicates(rootDF[msteams_unique_columns])
+    replyDF = removeDuplicates(replyDF[msteams_unique_columns])
+    replyDF = replyDF.set_index('ReplyToID')
+    joinedDF = pd.merge(rootDF, replyDF, left_on='ID', right_index=True)
+    joinedDF.reset_index(drop=True, inplace=True)
+    # print(joinedDF[['Author_x', 'Author_y']])
+    return joinedDF
 
 # Sentiment Calculation
 
