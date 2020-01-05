@@ -40,7 +40,6 @@ def getRepliesPerUser(rootDF, replyDF):
     replyDF = replyDF.set_index('ReplyToID')
     joinedDF = pd.merge(rootDF, replyDF, left_on='ID', right_index=True)
     joinedDF.reset_index(drop=True, inplace=True)
-    # print(joinedDF[['Author_x', 'Author_y']])
     return joinedDF
 
 # Sentiment Calculation
