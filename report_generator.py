@@ -14,12 +14,16 @@ def generateGroupReport():
     uniqueReplyDF = removeDuplicates(replyDF[msteams_unique_columns])
     df = pd.concat([uniqueRootDF,uniqueReplyDF])
     augDF = getAugmentedDataFrame(df)
-    groupPlotter(augDF, rawAugDF, rootDF, replyDF)
-    new_pdf(['output/ax1_figure.png', 'output/ax2_figure.png', 
-    'output/ax3_figure.png', 'output/ax4_figure.png',
-    'output/ax5_figure.png', 'output/ax6_figure.png'],
-    'Group_Report'
-    )
+    file_list, message_count_df, word_count_df, letter_count_df = groupPlotter(augDF, rawAugDF, rootDF, replyDF)
+    message_count_list = message_count_df.values.tolist()
+    word_count_list = word_count_df.values.tolist()
+    letter_count_list = letter_count_df.values.tolist()
+    summary_data = [
+        [message_count_list, 'Author', 'Message Count', 'Count of messages by each user'],
+        [word_count_list, 'Author', 'Word Count', 'Count of words by each user'],
+        [letter_count_list, 'Author', 'Letter Count', 'Count of letters by each user']
+    ]
+    new_pdf(file_list, 'Group_Report', table_data=summary_data)
 
 def generateIndividualReport(user_name):
     rootDF = getRootMessages(1,2)
@@ -28,6 +32,17 @@ def generateIndividualReport(user_name):
     uniqueReplyDF = removeDuplicates(replyDF[msteams_unique_columns])
     df = pd.concat([uniqueRootDF,uniqueReplyDF])
     augDF = getAugmentedDataFrame(df)
-    userPlotter(user_name, augDF)
-    new_pdf(['output/ax_figure.png'], user_name)
+    file_list, message_count_df, word_count_df, letter_count_df = userPlotter(user_name, augDF, rootDF, replyDF)
+    message_count_df = message_count_df.loc[message_count_df['Author'] == user_name]
+    word_count_df = word_count_df.loc[word_count_df['Author'] == user_name]
+    letter_count_df = letter_count_df.loc[letter_count_df['Author'] == user_name]
+    message_count_list = message_count_df.values.tolist()
+    word_count_list = word_count_df.values.tolist()
+    letter_count_list = letter_count_df.values.tolist()
+    line_data_list = [
+        ['Number of messages sent by you: ', message_count_list],
+        ['Number of words used by you: ', word_count_list],
+        ['Number of letters used by you: ', letter_count_list],
+    ]
+    new_pdf(file_list, user_name, line_data=line_data_list)
     

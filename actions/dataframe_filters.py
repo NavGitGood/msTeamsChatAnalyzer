@@ -28,6 +28,7 @@ def discreetSentimentForIndividual(author_name, augDF):
     df = augmentDataFrameWithDiscreetSentimentPolarity(augDF)
     return df.loc[df['Author'] == author_name]
 
+# group, users which were mentioned
 def getUserMentions(mergedDF):
     mergedDF.reset_index(drop=True, inplace=True)
     rowsToRemove = mergedDF[mergedDF['Mentioned'].apply(lambda x: x.startswith('null'))].index
@@ -35,7 +36,22 @@ def getUserMentions(mergedDF):
     userMentionsDF = mergedDF['Mentioned'].value_counts()
     return userMentionsDF
 
+# group, users receiving replies
 def getUsersWithReplies(rootDF, replyDF):
     joinedDF = getRepliesPerUser(rootDF, replyDF)
+    joinedDF = joinedDF['Author_x'].value_counts()
+    return joinedDF
+
+# individual
+def getRepliesToUser(rootDF, replyDF, author_name):
+    joinedDF = getRepliesPerUser(rootDF, replyDF)
+    joinedDF = joinedDF.loc[joinedDF['Author_x'] == author_name]
+    joinedDF = joinedDF['Author_y'].value_counts()
+    return joinedDF
+
+# individual
+def getRepliesByUser(rootDF, replyDF, author_name):
+    joinedDF = getRepliesPerUser(rootDF, replyDF)
+    joinedDF = joinedDF.loc[joinedDF['Author_y'] == author_name]
     joinedDF = joinedDF['Author_x'].value_counts()
     return joinedDF

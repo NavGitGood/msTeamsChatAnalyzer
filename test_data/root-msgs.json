@@ -1,6 +1,6 @@
 {
     "@odata.context": "https://graph.microsoft.com/beta/$metadata#teams('303d2c1c-f1c5-40ce-b68e-544343d7f42b')/channels('19%3Afec4b0f2825d4c8c82abc09027a64184%40thread.skype')/messages",
-    "@odata.count": 3,
+    "@odata.count": 5,
     "value": [
         {
             "id": "1555375673184",
@@ -163,6 +163,84 @@
             "body": {
                 "contentType": "html",
                 "content": "<div>Just a reminder to everyone to please update your monthly reports by this Friday!</div>"
+            },
+            "attachments": [],
+            "mentions": [
+            ],
+            "reactions": []
+        },
+        {
+            "id": "1555375673188",
+            "replyToId": null,
+            "etag": "1555375673188",
+            "messageType": "message",
+            "createdDateTime": "2019-04-16T00:47:53.184Z",
+            "lastModifiedDateTime": null,
+            "deletedDateTime": null,
+            "subject": "",
+            "summary": null,
+            "importance": "normal",
+            "locale": "en-us",
+            "policyViolation": null,
+            "from": {
+                "application": null,
+                "device": null,
+                "conversation": null,
+                "user": {
+                    "id": "bb8775a4-4d8c-42cf-a1d4-4d58c2bb668f",
+                    "displayName": "Adele Vance",
+                    "userIdentityType": "aadUser"
+                }
+            },
+            "body": {
+                "contentType": "html",
+                "content": "<div>How are you user 6</div>"
+            },
+            "attachments": [],
+            "mentions": [
+                {
+                    "id": 0,
+                    "mentionText": "User 6",
+                    "mentioned": {
+                        "application": null,
+                        "device": null,
+                        "conversation": null,
+                        "user": {
+                            "id": "5d8d505c-864f-4804-88c7-4583c966cfe8",
+                            "displayName": "User 6",
+                            "userIdentityType": "aadUser"
+                        }
+                    }
+                }
+            ],
+            "reactions": []
+        },
+        {
+            "id": "1555375673189",
+            "replyToId": null,
+            "etag": "1555375673189",
+            "messageType": "message",
+            "createdDateTime": "2019-04-16T00:47:53.184Z",
+            "lastModifiedDateTime": null,
+            "deletedDateTime": null,
+            "subject": "",
+            "summary": null,
+            "importance": "normal",
+            "locale": "en-us",
+            "policyViolation": null,
+            "from": {
+                "application": null,
+                "device": null,
+                "conversation": null,
+                "user": {
+                    "id": "bb8775a4-4d8c-42cf-a1d4-4d58c2bb668f",
+                    "displayName": "User 7",
+                    "userIdentityType": "aadUser"
+                }
+            },
+            "body": {
+                "contentType": "html",
+                "content": "<div>How is everybody</div>"
             },
             "attachments": [],
             "mentions": [
