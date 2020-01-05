@@ -12,7 +12,8 @@ def add_page(pdf):
     pdf.line(5, 292, 205, 292)  # bottom
 
 def add_image(pdf, image):
-    pdf.image(image, x=20, y=10, w=170)
+    addImageTitle(pdf, image[1])
+    pdf.image(image[0], x=20, y=25, w=170)
 
 def new_pdf(image_list, file_name, **summary_data):
     pdf = FPDF('P', 'mm', (210, 297))
@@ -24,6 +25,7 @@ def new_pdf(image_list, file_name, **summary_data):
     elif 'line_data' in summary_data:
         add_page(pdf)
         for line_data in summary_data.get('line_data'):
+            pdf.ln(15)
             add_key_value_line(pdf, line_data)
     for image in image_list:
         add_page(pdf)
@@ -59,4 +61,7 @@ def add_key_value_line(pdf, table_data):
     pdf.ln(15)
 
 
-# def addImageTitle(title):
+def addImageTitle(pdf, title):
+    pdf.set_font("Arial", size=18)
+    pdf.set_xy(10, 15)
+    pdf.cell(40, 6, f'{title}: ', 0, 1)

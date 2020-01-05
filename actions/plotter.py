@@ -26,7 +26,7 @@ def userPlotter(username, augDF, rootDF=None, replyDF=None):
     ax1 = fig.add_subplot(gs[1:4,:])
     df = discreetSentimentForIndividual(username, augDF)
     if (df.empty):
-        file_list.append('test_data/default.png')
+        file_list.append(['test_data/default.png', 'Visualization for Sentiment Polarity of Your Messages'])
     else:
         author_value_counts = df['discreet-sentiment-polarity'].value_counts()
         author_value_counts.plot(kind='bar', stacked=True, ax=ax1, color=getColorPalette(5))
@@ -45,7 +45,7 @@ def userPlotter(username, augDF, rootDF=None, replyDF=None):
         ax1.spines['bottom'].set_smart_bounds(True)
         extent = ax1.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
         fig.savefig('output/user_figure_1.png', bbox_inches=extent.expanded(1.15,3.0))
-        file_list.append('output/user_figure_1.png')
+        file_list.append(['output/user_figure_1.png', 'Visualization for Sentiment Polarity of Your Messages'])
     fig.delaxes(ax1)
 
 
@@ -59,7 +59,7 @@ def userPlotter(username, augDF, rootDF=None, replyDF=None):
     )
     df1 = getRepliesToUser(rootDF, replyDF, username)
     if (df1.empty):
-        file_list.append('test_data/default.png')
+        file_list.append(['test_data/default.png', 'Visualization of Replies Received from Other Users'])
     else:
         dfLen = len(df1.index)
         df1.plot.pie(ax=ax1, colors = getColorPalette(dfLen), explode=getExplosionArray(dfLen), shadow=True, 
@@ -67,7 +67,7 @@ def userPlotter(username, augDF, rootDF=None, replyDF=None):
         textprops={'fontsize': 22})
         extent = ax1.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
         fig.savefig('output/user_figure_2.png', bbox_inches=extent.expanded(1.15,3.0))
-        file_list.append('output/user_figure_2.png')
+        file_list.append(['output/user_figure_2.png', 'Visualization of Replies Received from Other Users'])
     fig.delaxes(ax1)
 
 
@@ -81,7 +81,7 @@ def userPlotter(username, augDF, rootDF=None, replyDF=None):
     )
     df1 = getRepliesByUser(rootDF, replyDF, username)
     if (df1.empty):
-        file_list.append('test_data/default.png')
+        file_list.append(['test_data/default.png', 'Visualization of Rplies Sent to Other Users'])
     else:
         dfLen = len(df1.index)
         df1.plot.pie(ax=ax1, colors = getColorPalette(dfLen), explode=getExplosionArray(dfLen), shadow=True, 
@@ -89,7 +89,7 @@ def userPlotter(username, augDF, rootDF=None, replyDF=None):
         textprops={'fontsize': 22})
         extent = ax1.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
         fig.savefig('output/user_figure_3.png', bbox_inches=extent.expanded(1.15,3.0))
-        file_list.append('output/user_figure_3.png')
+        file_list.append(['output/user_figure_3.png', 'Visualization of Rplies Sent to Other Users'])
     fig.delaxes(ax1)
     
     message_count_df = messageCountByAuthor(augDF)
@@ -121,7 +121,7 @@ def groupPlotter(augDF, rawAugDF, rootDF=None, replyDF=None):
     )
     message_count_df = messageCountByAuthor(augDF)
     if (message_count_df.empty):
-        file_list.append('test_data/default.png')
+        file_list.append(['test_data/default.png', 'Visualization of Message Count for Each User'])
     else:
         dfLen = len(message_count_df.index)
         message_count_df.plot.pie(ax=ax1, colors = getColorPalette(dfLen), explode=getExplosionArray(dfLen), shadow=True, 
@@ -129,7 +129,7 @@ def groupPlotter(augDF, rawAugDF, rootDF=None, replyDF=None):
         textprops={'fontsize': 22})
         extent = ax1.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
         fig.savefig('output/group_figure_1.png', bbox_inches=extent.expanded(1.0,3.0))
-        file_list.append('output/group_figure_1.png')
+        file_list.append(['output/group_figure_1.png', 'Visualization of Message Count for Each User'])
         message_count_df = message_count_df.reset_index()
         message_count_df.columns = ['Author', 'MessageCount']
     fig.delaxes(ax1)
@@ -144,7 +144,7 @@ def groupPlotter(augDF, rawAugDF, rootDF=None, replyDF=None):
         )
     word_count_df = wordCountByAuthor(augDF)
     if (word_count_df.empty):
-        file_list.append('test_data/default.png')
+        file_list.append(['test_data/default.png', 'Visualization of Word Count for Each User'])
     else:
         dfLen = len(word_count_df.index)
         word_count_df['Word_Count'].groupby(word_count_df['Author']).sum().plot.pie(ax=ax2, colors = getColorPalette(dfLen),
@@ -153,7 +153,7 @@ def groupPlotter(augDF, rawAugDF, rootDF=None, replyDF=None):
         textprops={'fontsize': 22})
         extent = ax2.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
         fig.savefig('output/group_figure_2.png', bbox_inches=extent.expanded(1.0,3.0))
-        file_list.append('output/group_figure_2.png')
+        file_list.append(['output/group_figure_2.png', 'Visualization of Word Count for Each User'])
     fig.delaxes(ax2)
 
     ax3 = fig.add_subplot(gs[1:4,:])
@@ -166,7 +166,7 @@ def groupPlotter(augDF, rawAugDF, rootDF=None, replyDF=None):
         )
     letter_count_df = letterCountByAuthor(augDF)
     if (letter_count_df.empty):
-        file_list.append('test_data/default.png')
+        file_list.append(['test_data/default.png', 'Visualization of Letter Count for Each User'])
     else:
         dfLen = len(letter_count_df.index)
         letter_count_df['Letter_Count'].groupby(letter_count_df['Author']).sum().plot.pie(ax=ax3, colors = getColorPalette(dfLen),
@@ -175,7 +175,7 @@ def groupPlotter(augDF, rawAugDF, rootDF=None, replyDF=None):
         textprops={'fontsize': 22})
         extent = ax3.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
         fig.savefig('output/group_figure_3.png', bbox_inches=extent.expanded(1.0,3.0))
-        file_list.append('output/group_figure_3.png')
+        file_list.append(['output/group_figure_3.png', 'Visualization of Letter Count for Each User'])
     fig.delaxes(ax3)
 
 
@@ -195,7 +195,7 @@ def groupPlotter(augDF, rawAugDF, rootDF=None, replyDF=None):
         'verticalalignment': 'baseline'}, labelpad=15)
     df4 = sentimentPolarityCountByAuthor(augDF)
     if (df4.empty):
-        file_list.append('test_data/default.png')
+        file_list.append(['test_data/default.png', 'Visualization of Sentiment Polarity'])
     else:
         color_map = getColorMap(df4['Author'].unique())
         for i, r in df4.iterrows():
@@ -204,7 +204,7 @@ def groupPlotter(augDF, rawAugDF, rootDF=None, replyDF=None):
         ax4.set_xlim([-1, 1])
         extent = ax4.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
         fig.savefig('output/group_figure_4.png', bbox_inches=extent.expanded(1.15,3.0))
-        file_list.append('output/group_figure_4.png')
+        file_list.append(['output/group_figure_4.png', 'Visualization of Sentiment Polarity'])
     fig.delaxes(ax4)
 
     ax5 = fig.add_subplot(gs[1:4,:])
@@ -217,7 +217,7 @@ def groupPlotter(augDF, rawAugDF, rootDF=None, replyDF=None):
     )
     df5 = getUserMentions(rawAugDF)
     if (df5.empty):
-        file_list.append('test_data/default.png')
+        file_list.append(['test_data/default.png', 'Visualization of Mentions for Each User'])
     else:
         dfLen = len(df5.index)
         df5.plot.pie(ax=ax5, colors = getColorPalette(dfLen), explode=getExplosionArray(dfLen), shadow=True, 
@@ -225,7 +225,7 @@ def groupPlotter(augDF, rawAugDF, rootDF=None, replyDF=None):
         textprops={'fontsize': 22})
         extent = ax5.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
         fig.savefig('output/group_figure_5.png', bbox_inches=extent.expanded(1.15,3.0))
-        file_list.append('output/group_figure_5.png')
+        file_list.append(['output/group_figure_5.png', 'Visualization of Mentions for Each User'])
     fig.delaxes(ax5)
 
 
@@ -239,7 +239,7 @@ def groupPlotter(augDF, rawAugDF, rootDF=None, replyDF=None):
     )
     df6 = getUsersWithReplies(rootDF, replyDF)
     if (df6.empty):
-        file_list.append('test_data/default.png')
+        file_list.append(['test_data/default.png', 'Visualization of Replies Received by each User'])
     else:
         dfLen = len(df6.index)
         df6.plot.pie(ax=ax6, colors = getColorPalette(dfLen), explode=getExplosionArray(dfLen), shadow=True, 
@@ -247,7 +247,7 @@ def groupPlotter(augDF, rawAugDF, rootDF=None, replyDF=None):
         textprops={'fontsize': 22})
         extent = ax6.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
         fig.savefig('output/group_figure_6.png', bbox_inches=extent.expanded(1.15,3.0))
-        file_list.append('output/group_figure_6.png')
+        file_list.append(['output/group_figure_6.png', 'Visualization of Replies Received by each User'])
     fig.delaxes(ax6)
 
     plt.tight_layout()
