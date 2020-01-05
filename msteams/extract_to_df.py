@@ -53,7 +53,7 @@ def getReplies(messageIds):
     dataList = []
     flatList = []
     for messageId in messageIds:
-        if(messageId=='1548100551644'):
+        if(messageId=='1548100551644'): # temporary solution to handle no replies
             continue
         else:
             file = f'./test_data/reply_{messageId}.json'  # to be replaced with actual api call and handle response with no replies
