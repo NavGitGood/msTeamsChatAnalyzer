@@ -7,6 +7,10 @@ Steps to run:
 5. pip install -r requirements.txt
 6. run using command python .\run.py <user_name>
 
+2 PDFs will be generated in output folder:
+1. Group_Report.pdf --> group report
+2. <user_name>.pdf --> individual report
+
 user_name can have any one of following values (from sample data):
 1. User 7
 2. User 6
