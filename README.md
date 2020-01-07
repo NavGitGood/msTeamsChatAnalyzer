@@ -5,13 +5,16 @@ Steps to run:
 3. Create a virtual environment python -m venv <name_of_virtual_environment>
 4. Activate virtual environment (powershell) .\<name_of_virtual_environment>\Scripts\Activate.ps1
 5. pip install -r requirements.txt
-6. run using command python .\run.py <user_name>
+6. run using command python .\run.py
+7. Use following options in interactive session to generate required report:
+    --> group : to generate group report
+    --> individual firstname lastname : to generate individual report 
 
-2 PDFs will be generated in output folder:
+PDFs will be generated in output folder:
 1. Group_Report.pdf --> group report
-2. <user_name>.pdf --> individual report
+2. <firstname lastname>.pdf --> individual report
 
-user_name can have any one of following values (from sample data):
+<firstname lastname> can have any one of following values (from sample data):
 1. User 7
 2. User 6
 3. Adele Vance
