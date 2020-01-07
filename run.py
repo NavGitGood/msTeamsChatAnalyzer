@@ -2,6 +2,8 @@ from actions.plotter import userPlotter, groupPlotter
 from actions.pdfmaker import add_image
 # from config.constants import msteams_unique_columns
 import sys
+# import readline
+import shlex
 # from msteams.extract_to_df import getRootMessages, getReplies
 from actions.dataframe_metrics import getAugmentedDataFrame #, getDataFrame
 from actions.dataframe_filters import getUserMentions, getUsersWithReplies
@@ -27,9 +29,29 @@ if __name__ == '__main__':
     # 'output/ax5_figure.png', 'output/ax6_figure.png'
     # )
 
-    generateGroupReport()
+    print('Enter a command to do something, e.g. `group` for generating group report or `individual firstname lastname` for generating individual report for a user.')
 
-    generateIndividualReport(f'{sys.argv[1]} {sys.argv[2]}')
+    while True:
+        cmd, *args = shlex.split(input('> '))
+
+        if cmd=='exit':
+            break
+
+        elif cmd.lower()=='group':
+            print('Generating Goup Report')
+            print('...')
+            generateGroupReport()
+            print('... done')
+
+        elif cmd.lower()=='individual':
+            firstname, lastname = args
+            print(f'Generating Report for {firstname} {lastname}')
+            print('...')
+            generateIndividualReport(f'{firstname} {lastname}')
+            print('... done')
+
+        else:
+            print('Unknown command: {}'.format(cmd))
 
 
 # -------------------- only for demo --------------------
