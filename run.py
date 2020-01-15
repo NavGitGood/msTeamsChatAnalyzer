@@ -38,7 +38,7 @@ if __name__ == '__main__':
             break
 
         elif cmd.lower()=='group':
-            print('Generating Goup Report')
+            print('Generating Group Report')
             print('...')
             generateGroupReport()
             print('... done')
